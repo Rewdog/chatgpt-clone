@@ -64,6 +64,8 @@ class Backend_Api:
                     'https': self.proxy['https'],
                 }
 
+            #calculate time to get gpt_resp and log it
+            start = time()
             gpt_resp = post(
                 url     = url,
                 proxies = proxies,
@@ -77,6 +79,8 @@ class Backend_Api:
                 },
                 stream  = True
             )
+            print(f"Time to get gpt_resp: {time() - start}")
+            print(f"Status code: {gpt_resp.status_code}")
 
             def stream():
                 for chunk in gpt_resp.iter_lines():
@@ -89,6 +93,10 @@ class Backend_Api:
                             
                     except GeneratorExit:
                         break
+
+                    #except index error
+                    except IndexError:
+                        continue
 
                     except Exception as e:
                         print(e)

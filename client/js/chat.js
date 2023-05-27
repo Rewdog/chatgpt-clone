@@ -559,4 +559,26 @@ colorThemes.forEach((themeOption) => {
   });
 });
 
+// export conversations in localStorage. conversations are stored like conversation:uuid, for example conversation:09c78b17-b09a-4364-985c-187f269a07c
+const exportConversations = function () {
+  const conversations = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    if (localStorage.key(i).startsWith("conversation:")) {
+      conversations.push(localStorage.getItem(localStorage.key(i)));
+    }
+  }
+  const blob = new Blob([conversations.join("\n")], {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob, "conversations.txt");
+};
+
+// saveAs
+const saveAs = function (blob, filename) {
+  const link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+};
+
 document.onload = setTheme();

@@ -65,6 +65,11 @@
         <div class="row">
             <div class="box conversations">
                 <div class="top">
+                    <!-- button to export conversations from localstorage via exportConversations()-->
+                    <button class="new_convo" onclick="exportConversations()">
+                        <i class="fa-regular fa-download"></i>
+                        <span>Export Conversations</span>
+                    </button>
                     <button class="new_convo" onclick="new_conversation()">
                         <i class="fa-regular fa-plus"></i>
                         <span>New Conversation</span>
@@ -120,12 +125,14 @@
                     <div class="field">
                         <select name="jailbreak" id="jailbreak">
                             <option value="default" selected>default</option>
+                            <option value="gpt-note-1.0">Notina 1.0</option>
                             <option value="gpt-math-1.0">math 1.0</option>
                             <option value="gpt-dude-1.0">dude 1.0</option>
                             <option value="gpt-dan-1.0">dan 1.0</option>
                             <option value="gpt-dan-2.0">dan 2.0</option>
                             <option value="gpt-dev-2.0">dev 2.0</option>
                             <option value="gpt-evil-1.0">evil 1.0</option>
+                            <option value="gpt-travel-agent-1.0">travel 1.0</option>
                         </select>
                     </div>
 
