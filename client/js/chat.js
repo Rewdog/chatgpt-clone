@@ -575,7 +575,28 @@ const exportConversations = function () {
   const blob = new Blob([conversations.join("\n")], {
     type: "text/plain;charset=utf-8",
   });
-  saveAs(blob, "conversations.txt");
+  saveAs(blob, "conversations.json");
+};
+
+// load conversations from json file
+const loadConversations = function (filelist) {
+  const file = filelist[0];
+  const reader = new FileReader();
+  reader.readAsText(file);
+  console.log(file);
+  reader.onload = function (event) {
+    console.log(event.target.result);
+    const conversations = event.target.result.split("\n");
+    conversations.forEach((conversation) => {
+      console.log(conversation);
+      const conversationObject = JSON.parse(conversation);
+      localStorage.setItem(
+        `conversation:${conversationObject.id}`,
+        conversation
+      );
+    });
+    location.reload();
+  };
 };
 
 // saveAs

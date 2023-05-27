@@ -62,14 +62,22 @@
     </head>
     <body>
         <div class="gradient"></div>
-        <div class="row">
+        <div class="row">            
             <div class="box conversations">
                 <div class="top">
+                    <!-- button to import conversations-->
+                    <button class="new_convo">
+                        <i class="fa-regular fa-upload">
+                            <form id="uploadForm" enctype="multipart/form-data" method="post">
+                                <input type="file" id="file" name="file" accept=".json" onchange="loadConversations(this.files)">
+                            </form> 
+                        </i>
+                    </button>
                     <!-- button to export conversations from localstorage via exportConversations()-->
                     <button class="new_convo" onclick="exportConversations()">
                         <i class="fa-regular fa-download"></i>
                         <span>Export Conversations</span>
-                    </button>
+                    </button>                                     
                     <button class="new_convo" onclick="new_conversation()">
                         <i class="fa-regular fa-plus"></i>
                         <span>New Conversation</span>
