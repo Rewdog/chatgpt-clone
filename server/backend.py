@@ -14,7 +14,7 @@ from server.config import special_instructions
 class Backend_Api:
     def __init__(self, app, config: dict) -> None:
         self.app = app
-        self.openai_key = os.getenv("OPENAI_API_KEY") or config['openai_key']
+        self.openai_key = os.getenv("OPENAI_API_KEY") or config['openai_key']        
         self.openai_api_base = os.getenv("OPENAI_API_BASE") or config['openai_api_base']
         self.proxy = config['proxy']
         self.routes = {
@@ -84,24 +84,26 @@ class Backend_Api:
 
             def stream():
                 for chunk in gpt_resp.iter_lines():
-                    try:
-                        decoded_line = loads(chunk.decode("utf-8").split("data: ")[1])
-                        token = decoded_line["choices"][0]['delta'].get('content')
+                    if chunk != b'data: [DONE]':
+                        try:
+                            decoded_line = loads(chunk.decode("utf-8").split("data: ")[1])
+                            token = decoded_line["choices"][0]['delta'].get('content')
 
-                        if token != None: 
-                            yield token
-                            
-                    except GeneratorExit:
-                        break
+                            if token != None: 
+                                yield token
+                                
+                        except GeneratorExit:
+                            break
 
-                    #except index error
-                    except IndexError:
-                        continue
+                        #except index error
+                        except IndexError:
+                            continue
 
-                    except Exception as e:
-                        print(e)
-                        print(e.__traceback__.tb_next)
-                        continue
+                        except Exception as e:
+                            print(e)
+                            print(e.__traceback__.tb_next)
+                            print(chunk)
+                            continue
                         
             return self.app.response_class(stream(), mimetype='text/event-stream')
 
